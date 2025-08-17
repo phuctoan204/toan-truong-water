@@ -1,0 +1,163 @@
+@{
+    ViewBag.Title = "Chat HT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/contact_styles.css">
+<div style="margin-top: 150px;"></div>
+<div class="container">
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <h3>Chatbot</h3>
+        </div>
+        <div class="chatbot-messages" id="chatMessages">
+            <div class="message bot">
+                HELLO 500 AE
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="userInput" placeholder=".................." />
+            <button id="sendButton" class="btn btn-success">Send</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .chatbot-container {
+        max-width: 500px;
+        margin: 20px auto;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        background: #fff;
+    }
+
+    .chatbot-header {
+        background: #4CAF50;
+        color: white;
+        padding: 15px;
+        border-radius: 8px 8px 0 0;
+        text-align: center;
+    }
+
+    .chatbot-messages {
+        height: 400px;
+        overflow-y: auto;
+        padding: 15px;
+        background: #f9f9f9;
+    }
+
+    .message {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 8px;
+        max-width: 80%;
+        word-wrap: break-word;
+    }
+
+    .message.user {
+        background: #e3f2fd;
+        margin-left: auto;
+    }
+
+    .message.bot {
+        background: #fff;
+        margin-right: auto;
+        border: 1px solid #ddd;
+        white-space: pre-wrap;
+    }
+
+    .message.bot a {
+        color: #4CAF50;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .message.bot a:hover {
+        text-decoration: underline;
+    }
+
+    .chatbot-input {
+        display: flex;
+        padding: 15px;
+        background: #fff;
+        border-top: 1px solid #ddd;
+    }
+
+    .chatbot-input input {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-right: 10px;
+    }
+
+    #sendButton {
+        padding: 8px 20px;
+        background: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    #sendButton:hover {
+        background: #45a049;
+    }
+</style>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            var chatMessages = $('#chatMessages');
+            var userInput = $('#userInput');
+            var sendButton = $('#sendButton');
+
+            function addMessage(message, isUser) {
+                var messageDiv = $('<div>')
+                    .addClass('message')
+                    .addClass(isUser ? 'user' : 'bot');
+
+                if (isUser) {
+                    messageDiv.text(message);
+                } else {
+                    // Xử lý HTML trong tin nhắn bot
+                    messageDiv.html(message);
+                }
+
+                chatMessages.append(messageDiv);
+                chatMessages.scrollTop(chatMessages[0].scrollHeight);
+            }
+
+            function sendMessage() {
+                var message = userInput.val().trim();
+                if (message) {
+                    addMessage(message, true);
+                    userInput.val('');
+
+                    $.ajax({
+                        url: '@Url.Action("GetResponse", "Chatbot")',
+                        type: 'POST',
+                        data: { message: message },
+                        success: function (response) {
+                            if (response.success) {
+                                addMessage(response.message, false);
+                            } else {
+                                addMessage('Có lỗi xảy ra, vui lòng thử lại sau.', false);
+                            }
+                        },
+                        error: function () {
+                            addMessage('Có lỗi xảy ra, vui lòng thử lại sau.', false);
+                        }
+                    });
+                }
+            }
+
+            sendButton.click(sendMessage);
+            userInput.keypress(function (e) {
+                if (e.which == 13) {
+                    sendMessage();
+                }
+            });
+        });
+    </script>
+}

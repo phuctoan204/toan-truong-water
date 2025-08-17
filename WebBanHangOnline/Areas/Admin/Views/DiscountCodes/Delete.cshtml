@@ -1,0 +1,38 @@
+﻿@model WebBanHangOnline.Models.EF.DiscountCode
+@{
+    ViewBag.Title = "Xác nhận xóa mã giảm giá";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Xác nhận xóa mã giảm giá</h2>
+
+<div class="alert alert-warning">
+    <strong>Bạn có chắc chắn muốn xóa mã này không?</strong>
+</div>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Mã giảm giá</th>
+        <td>@Model.Code</td>
+    </tr>
+    <tr>
+        <th>Phần trăm giảm</th>
+        <td>@Model.DiscountPercent%</td>
+    </tr>
+    <tr>
+        <th>Giảm tối đa</th>
+        <td>@Model.MaxDiscountAmount VND</td>
+    </tr>
+    <tr>
+        <th>Hạn sử dụng</th>
+        <td>@Model.ExpiryDate.ToShortDateString()</td>
+    </tr>
+</table>
+
+@using (Html.BeginForm("Delete", "DiscountCodes", new { area = "Admin", id = Model.Id }, FormMethod.Post))
+
+{
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+    <a href="@Url.Action("Index", "DiscountCodes", new { area = "Admin" })" class="btn btn-secondary">Hủy</a>
+}

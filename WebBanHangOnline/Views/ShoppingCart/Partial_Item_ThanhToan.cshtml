@@ -1,0 +1,43 @@
+﻿@model IEnumerable<WebBanHangOnline.Models.ShoppingCartItem>
+@using WebBanHangOnline.Common
+
+@if (Model != null && Model.Any())
+{
+    <h3>GIỎ HÀNG <span style="float:right;position:relative"><small>@Model.Count()</small></span></h3>
+    var i = 0;
+    var tongtien = decimal.Zero;
+    decimal discountAmount = Session["DiscountAmount"] != null ? (decimal)Session["DiscountAmount"] : 0;
+    <div style="border:1px solid #808080;">
+        <table class="table">
+            @foreach (var item in Model)
+            {
+                tongtien += item.TotalPrice;
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@Common.FormatNumber(item.Price, 0)</td>
+                </tr>
+            }
+            <tr>
+                <td>Tổng tiền</td>
+                <td>@Common.FormatNumber(tongtien, 0) VND</td>
+            </tr>
+            @if (discountAmount > 0)
+            {
+                <tr>
+                    <td>Giảm giá</td>
+                    <td>-@Common.FormatNumber(discountAmount, 0) VND</td>
+                </tr>
+                <tr>
+                    <td><strong>Thành tiền sau giảm</strong></td>
+                    <td><strong>@Common.FormatNumber(tongtien - discountAmount, 0) VND</strong></td>
+                </tr>
+            }
+        </table>
+
+    </div>
+
+}
+else
+{
+    <p>Không có sản phẩm nào trong giỏ hàng.</p>
+}

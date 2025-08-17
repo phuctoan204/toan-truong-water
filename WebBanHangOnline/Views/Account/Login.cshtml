@@ -1,0 +1,55 @@
+﻿@model WebBanHangOnline.Models.LoginViewModel
+@using CaptchaMvc.HtmlHelpers
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+@using WebBanHangOnline.Models
+@{
+    string returnUrl = ViewBag.ReturnUrl as string;
+}
+<div class="login-form">
+    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = returnUrl }, FormMethod.Post, new { @class = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <h1>Login</h1>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="input-box">
+            @Html.TextBoxFor(m => m.UserName, new { placeholder = "Username", @class = "form-control" })
+            <i class='bx bx-user'></i>
+            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+        </div>
+        <div class="input-box">
+            @Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control" })
+            <i class='bx bx-lock-alt'></i>
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+        </div>
+        <div class="input-box">
+            @Html.Captcha(4)
+            <p class=" text-danger">@ViewBag.ErrorMessage</p>
+        </div>
+        <div class="rm">
+            <label for="RememberMe">
+                @Html.CheckBoxFor(m => m.RememberMe)
+                Remember-me
+            </label>
+            <a href="/account/ForgotPassword">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="btn">Login</button>
+
+        <div class="register">
+            <p>Don't have an account? @Html.ActionLink("Register", "Register")</p>
+        </div>
+    }
+    @*@using (Html.BeginForm("ExternalLogin", "Account", new { provider = "Google", returnUrl = returnUrl ?? "/" }, FormMethod.Post, new { id = "googleLoginForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-primary">Đăng nhập bằng Google</button>
+        }*@
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

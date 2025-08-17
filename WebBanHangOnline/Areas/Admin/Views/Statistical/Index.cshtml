@@ -1,0 +1,289 @@
+﻿@{
+    ViewBag.Title = "Thống kê doanh thu";
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1><i class="fas fa-chart-line"></i> Thống kê doanh thu</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">Thống kê</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title"><i class="fas fa-filter"></i> Bộ lọc</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Bộ lọc khách hàng -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="customerSelect">Khách hàng</label>
+                        <select id="customerSelect" class="form-control">
+                            <option value="">Tất cả</option>
+                            @foreach (var customer in ViewBag.Customers as SelectList)
+                            {
+                                <option value="@customer.Value">@customer.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <!-- Bộ lọc danh mục sản phẩm -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="categorySelect">Danh mục sản phẩm</label>
+                        <select id="categorySelect" class="form-control">
+                            <option value="">Tất cả</option>
+                            @foreach (var category in ViewBag.Categories as SelectList)
+                            {
+                                <option value="@category.Value">@category.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <!-- Bộ lọc thời gian -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="fromDate">Từ ngày</label>
+                        <input type="text" id="fromDate" class="form-control" placeholder="dd/MM/yyyy">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="toDate">Đến ngày</label>
+                        <input type="text" id="toDate" class="form-control" placeholder="dd/MM/yyyy">
+                    </div>
+                </div>
+                <div class="col-md-12 text-right">
+                    <button id="filterButton" class="btn btn-primary"><i class="fas fa-search"></i> Lọc</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-header bg-success text-white">
+            <h3 class="card-title"><i class="fas fa-chart-bar"></i> Kết quả thống kê</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="alert alert-info text-center">
+                        <h5><i class="fas fa-coins"></i> Tổng doanh thu</h5>
+                        <h3 id="totalRevenue">0</h3>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="alert alert-warning text-center">
+                        <h5><i class="fas fa-hand-holding-usd"></i> Tổng lợi nhuận</h5>
+                        <h3 id="totalProfit">0</h3>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="chart">
+                        <canvas id="barChart" style="height: 300px;"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="chart">
+                        <canvas id="pieChart" style="height: 300px;"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <table id="revenueTable" class="table table-striped table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Ngày</th>
+                                <th>Doanh thu</th>
+                                <th>Lợi nhuận</th>
+                            </tr>
+                        </thead>
+                        <tbody id="load_data"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts {
+    <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.6/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.6/css/dataTables.bootstrap4.min.css">
+    <script src="~/Content/clients/plugins/chart.js/Chart.min.js"></script>
+    <script src="~/Content/assets/plugins/moment/moment.min.js"></script>
+    <script>
+        $(function () {
+            $('#filterButton').on('click', function () {
+                var customerId = $('#customerSelect').val();
+                var categoryId = $('#categorySelect').val();
+                var fromDate = $('#fromDate').val();
+                var toDate = $('#toDate').val();
+
+                $.ajax({
+                    url: '/Admin/Statistical/GetStatistical',
+                    type: 'GET',
+                    data: { categoryId: categoryId, fromDate: fromDate, toDate: toDate, customerId: customerId },
+                    success: function (response) {
+                        if (response.Data) {
+                            updateChart(response.Data);
+                            load_data(response.Data);
+                            updatePieChart(response.Data); // Cập nhật biểu đồ tròn
+                        } else {
+                            alert("Không tìm thấy dữ liệu.");
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error("Lỗi xảy ra:", xhr.responseText);
+                    }
+                });
+            });
+        });
+
+        function updateChart(data) {
+            var arrDate = [];
+            var arrDoanhThu = [];
+            var arrLoiNhuan = [];
+            var totalRevenue = 0;
+            var totalProfit = 0;
+
+            $.each(data, function (i, item) {
+                var strDate = moment(item.Date).format('DD/MM/yyyy');
+                arrDate.push(strDate);
+                arrDoanhThu.push(item.DoanhThu);
+                arrLoiNhuan.push(item.LoiNhuan);
+
+                totalRevenue += item.DoanhThu;
+                totalProfit += item.LoiNhuan;
+            });
+
+            $('#totalRevenue').text(totalRevenue.toLocaleString('vi-VN') + " VND");
+            $('#totalProfit').text(totalProfit.toLocaleString('vi-VN') + " VND");
+
+            var chartData = {
+                labels: arrDate,
+                datasets: [
+                    {
+                        label: 'Lợi nhuận',
+                        backgroundColor: 'rgba(60,141,188,0.9)',
+                        data: arrLoiNhuan
+                    },
+                    {
+                        label: 'Doanh thu',
+                        backgroundColor: 'rgba(210,214,222,1)',
+                        data: arrDoanhThu
+                    }
+                ]
+            };
+
+            var barChartCanvas = $('#barChart').get(0).getContext('2d');
+            new Chart(barChartCanvas, {
+                type: 'bar',
+                data: chartData,
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        function updatePieChart(data) {
+            var productData = {};
+
+            // Nhóm dữ liệu theo sản phẩm và tính tổng lợi nhuận
+            $.each(data, function (i, item) {
+                if (productData[item.ProductName]) {
+                    productData[item.ProductName].DoanhThu += item.DoanhThu;
+                    productData[item.ProductName].LoiNhuan += item.LoiNhuan;
+                } else {
+                    productData[item.ProductName] = { DoanhThu: item.DoanhThu, LoiNhuan: item.LoiNhuan };
+                }
+            });
+
+            // Lấy sản phẩm có lợi nhuận cao nhất
+            var sortedProducts = Object.entries(productData).sort((a, b) => b[1].LoiNhuan - a[1].LoiNhuan);
+            var topProducts = sortedProducts.slice(0, 5); // Lấy top 5 sản phẩm
+
+            var pieLabels = [];
+            var pieData = [];
+            var pieColors = ['#FF5733', '#33FF57', '#3357FF', '#F5A623', '#F76C6C'];
+
+            $.each(topProducts, function (index, [productName, stats]) {
+                pieLabels.push(productName);
+                pieData.push(stats.LoiNhuan);
+            });
+
+            var pieChartData = {
+                labels: pieLabels,
+                datasets: [{
+                    data: pieData,
+                    backgroundColor: pieColors.slice(0, pieData.length),
+                    hoverOffset: 4
+                }]
+            };
+
+            var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
+            new Chart(pieChartCanvas, {
+                type: 'pie',
+                data: pieChartData,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    var label = context.label || '';
+                                    var value = context.raw || 0;
+                                    return `${label}: ${value.toLocaleString('vi-VN')} VND`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function load_data(data) {
+            var strHtml = "";
+            $.each(data, function (i, item) {
+                var strDate = moment(item.Date).format('DD/MM/yyyy');
+                strHtml += "<tr>";
+                strHtml += "<td>" + (i + 1) + "</td>";
+                strHtml += "<td>" + strDate + "</td>";
+                strHtml += "<td>" + item.DoanhThu.toLocaleString('vi-VN') + " VND</td>";
+                strHtml += "<td>" + item.LoiNhuan.toLocaleString('vi-VN') + " VND</td>";
+                strHtml += "</tr>";
+            });
+
+            // Thêm dữ liệu vào bảng
+            $('#load_data').html(strHtml);
+
+            // Khởi tạo DataTables (chỉ chạy 1 lần)
+            if (!$.fn.DataTable.isDataTable('#revenueTable')) {
+                $('#revenueTable').DataTable({
+                    paging: true,
+                    lengthChange: true, // Bật dropdown chọn số dòng hiển thị
+                    lengthMenu: [5, 10, 20, 50], // Các lựa chọn số dòng
+                    pageLength: 10,
+                    ordering: false,
+                    language: {
+                        lengthMenu: "Hiển thị _MENU_ mục",
+                        paginate: {
+                            previous: "Trước",
+                            next: "Tiếp"
+                        },
+                        info: "Hiển thị từ _START_ đến _END_ trong tổng số _TOTAL_ mục"
+                    }
+                });
+            }
+        }
+    </script>
+}

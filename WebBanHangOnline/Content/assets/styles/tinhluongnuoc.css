@@ -1,0 +1,100 @@
+﻿.custom-body {
+    font-family: Arial, sans-serif;
+    background-color: #8EBBD4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+
+.custom-container {
+    width: 800px;
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 100px; /* Thêm khoảng cách phía trên */
+}
+
+.custom-title {
+    color: #FFFFFF;
+    background-color: #0072C6;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 24px;
+    margin: 0;
+}
+
+.custom-sub-header {
+    color: #333;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.custom-form-container {
+    background-color: #D9EAF7;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.custom-form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+    .custom-form-group label {
+        width: 30%;
+        text-align: left;
+        font-size: 16px;
+        color: #333;
+    }
+
+.custom-form-control {
+    width: 65%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.custom-btn {
+    background-color: #0072C6;
+    color: #fff;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+    .custom-btn:hover {
+        background-color: #005a9e;
+    }
+
+.custom-result-text {
+    font-size: 18px;
+    color: #0072C6;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.custom-note {
+    font-size: 12px;
+    color: #FFFFFF;
+    background-color: #0072C6;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 20px;
+    text-align: center;
+}

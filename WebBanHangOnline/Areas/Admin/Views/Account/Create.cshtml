@@ -1,0 +1,90 @@
+﻿@model WebBanHangOnline.Models.CreateAccountViewModel
+@{
+    ViewBag.Title = "Thêm mới tài khoản";
+}
+
+@section naviheader{
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin" class="nav-link">@ViewBag.Title</a>
+        </li>
+    </ul>
+}
+
+<section class="content">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title">Thêm mới tài khoản</h3>
+        </div>
+
+        <div class="card-body">
+            @using (Html.BeginForm("Create", "Account", FormMethod.Post))
+            {
+                @Html.ValidationSummary(false)
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label for="UserName">Tài khoản</label>
+                    @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", placeholder = "Nhập tài khoản", @autocomplete = "off" })
+                    <span class="text-danger">@Html.ValidationMessageFor(x => x.UserName)</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="FullName">Họ tên</label>
+                    @Html.TextBoxFor(x => x.FullName, new { @class = "form-control", placeholder = "Nhập họ tên" })
+                    <span class="text-danger">@Html.ValidationMessageFor(x => x.FullName)</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control", placeholder = "Nhập email" })
+                    <span class="text-danger">@Html.ValidationMessageFor(x => x.Email)</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="Phone">Số điện thoại</label>
+                    @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", placeholder = "Nhập số điện thoại" })
+                    <span class="text-danger">@Html.ValidationMessageFor(x => x.Phone)</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="Roles">Quyền</label>
+                    @Html.DropDownListFor(x => x.Roles, ViewBag.Role as SelectList, "- Chọn quyền -", new { @class = "form-control selectpicker", @multiple = "multiple" })
+                    <span class="text-danger">@Html.ValidationMessageFor(x => x.Roles)</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="Password">Mật khẩu</label>
+                    @Html.PasswordFor(x => x.Password, new { @class = "form-control", placeholder = "Nhập mật khẩu" })
+                    <span class="text-danger">@Html.ValidationMessageFor(x => x.Password)</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="ConfirmPassword">Nhập lại mật khẩu</label>
+                    @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control", placeholder = "Nhập lại mật khẩu" })
+                    <span class="text-danger">@Html.ValidationMessageFor(x => x.ConfirmPassword)</span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-block">
+                        <i class="fas fa-user-plus"></i> Thêm mới tài khoản
+                    </button>
+                </div>
+            }
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+
+        </div>
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->

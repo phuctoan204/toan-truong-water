@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Vòng quay may mắn";
+
+}
+<h2>Vòng quay may mắn</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div style="color:red">@TempData["Error"]</div>
+}
+
+<form id="spinForm" method="post" action="@Url.Action("Spin")">
+    <label>Họ tên:</label>
+    <input type="text" name="fullName" required />
+    <label>Email:</label>
+    <input type="email" name="email" required />
+    <button type="submit">Quay Ngay</button>
+</form>
+
+<div id="wheelWrapper" style="margin-top:30px;">
+    <canvas id="wheelCanvas" width="500" height="500"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/Winwheel.js@2.8.0/Winwheel.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    var theWheel = new Winwheel({
+        'numSegments': 5,
+        'outerRadius': 200,
+        'segments': [
+            { 'fillStyle': '#eae56f', 'text': 'Chúc bạn may mắn' },
+            { 'fillStyle': '#89f26e', 'text': 'Giảm 5%' },
+            { 'fillStyle': '#7de6ef', 'text': 'Giảm 10%' },
+            { 'fillStyle': '#e7706f', 'text': 'Miễn phí vận chuyển' },
+            { 'fillStyle': '#ff9900', 'text': 'Giảm 15%' }
+        ],
+        'animation':
+        {
+            'type': 'spinToStop',
+            'duration': 5,
+            'spins': 8,
+            'callbackFinished': function () {
+                document.getElementById("spinForm").submit();
+            }
+        }
+    });
+
+    // Gọi quay khi form được submit
+    document.getElementById("spinForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        theWheel.startAnimation();
+    });
+</script>
+

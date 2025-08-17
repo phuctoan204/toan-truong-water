@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - WebBanHangOnline</title>
+    <link rel="stylesheet" href="~/Content/assets/styles/stylelogin.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <!-- Video nền -->
+    <video src="~/Content/assets/videos/loginvideo.mp4" autoplay loop muted></video>
+
+    <!-- Container bao quanh form -->
+    <div class="container">
+        @RenderBody()
+    </div>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

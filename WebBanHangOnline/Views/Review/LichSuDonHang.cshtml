@@ -1,0 +1,111 @@
+﻿@model PagedList.IPagedList<WebBanHangOnline.Models.ViewModels.OrderHistoryViewModel>
+@using PagedList.Mvc
+@using WebBanHangOnline.Common
+
+@if (Model != null && Model.Any())
+{
+    var i = 1;
+    <h2>Lịch Sử Mua Hàng</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Mã ĐH</th>
+                <th>Ngày Đặt</th>
+                <th>Tổng</th>
+                <th>Giảm Giá</th>
+                <th>Trạng Thái</th>
+                <th>Chi Tiết</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+
+            }
+            @foreach (var order in Model)
+            {
+                var productCount = order.OrderDetails.Count;
+                var bottleFee = order.OrderDetails.Sum(d => d.HasBottleFee ? 40000 * d.Quantity : 0);
+                var totalWithFee = order.TotalFinal + bottleFee;
+
+                <tr>
+                    <td rowspan="@productCount">@i</td>
+                    <td rowspan="@productCount">@order.OrderCode</td>
+                    <td rowspan="@productCount">@order.CreatedDate.ToString("dd/MM/yyyy")</td>
+                    <td rowspan="@productCount">@Common.FormatNumber(order.TotalAmount, 0) VNĐ</td>
+                    <td rowspan="@productCount">
+                        @if (order.DiscountAmount.HasValue && order.DiscountAmount.Value > 0)
+                        {
+                            <span class="text-danger">-@Common.FormatNumber(order.DiscountAmount.Value, 0) VNĐ</span>
+                        }
+                        else
+                        {
+                            <span>0 VNĐ</span>
+                        }
+                    </td>
+                    
+                    
+
+                    <td rowspan="@productCount">
+                        @if (order.Status == 1)
+                        {
+                            <span class="text-warning">Chưa thanh toán</span>
+                        }
+                        else if (order.Status == 2)
+                        {
+                            <span class="text-primary">Đã thanh toán</span>
+                        }
+                        else if (order.Status == 3)
+                        {
+                            <span class="text-success">Hoàn thành</span>
+                        }
+                        else if (order.Status == 4)
+                        {
+                            <span class="text-danger">Đã hủy</span>
+                        }
+                    </td>
+                    <td>
+                        @order.OrderDetails[0].ProductName <br />
+                        Giá: @Common.FormatNumber(order.OrderDetails[0].Price, 0) VNĐ <br />
+                        SL: @order.OrderDetails[0].Quantity
+                        @*@if (order.OrderDetails[0].HasBottleFee)
+                            {
+                                <br />
+                                <span class="text-danger">Phí vỏ: @Common.FormatNumber(40000 * order.OrderDetails[0].Quantity, 0) VNĐ</span>
+                            }*@
+                    </td>
+                </tr>
+
+                for (var j = 1; j < productCount; j++)
+                {
+                    <tr>
+                        <td>
+                            @order.OrderDetails[j].ProductName <br />
+                            Giá: @Common.FormatNumber(order.OrderDetails[j].Price, 0) VNĐ <br />
+                            SL: @order.OrderDetails[j].Quantity
+                            @if (order.OrderDetails[j].HasBottleFee)
+                            {
+                                <br />
+                                <span class="text-danger">Phí vỏ: @Common.FormatNumber(40000 * order.OrderDetails[j].Quantity, 0) VNĐ</span>
+                            }
+                        </td>
+                    </tr>
+                }
+
+                i++;
+            }
+        </tbody>
+    </table>
+
+
+    <div class="row">
+        <div class="col-6"></div>
+        <div class="col-6" style="text-align:right;">
+            @Html.PagedListPager(Model, page => Url.Action("LichSuDonHang", "Review", new { page }))
+        </div>
+    </div>
+}
+else
+{
+    <p>Không có lịch sử mua hàng nào.</p>
+}

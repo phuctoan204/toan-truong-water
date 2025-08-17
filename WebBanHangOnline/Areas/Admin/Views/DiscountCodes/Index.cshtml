@@ -1,0 +1,35 @@
+﻿@model IEnumerable<WebBanHangOnline.Models.EF.DiscountCode>
+@{
+    ViewBag.Title = "Mã giảm giá";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Danh sách mã giảm giá</h2>
+<p><a href="@Url.Action("Create")" class="btn btn-primary">Tạo mới</a></p>
+
+<table class="table">
+    <tr>
+        <th>Mã</th>
+        <th>Giảm giá (%)</th>
+        <th>Giảm tối đa (VND)</th>
+        <th>Hạn sử dụng</th>
+        <th>Trạng thái</th>
+        <th>Hành động</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Code</td>
+            <td>@item.DiscountPercent%</td>
+            <td>@item.MaxDiscountAmount VND</td>
+            <td>@item.ExpiryDate.ToShortDateString()</td>
+            <td>@(item.IsUsed ? "Đã dùng" : "Chưa dùng")</td>
+            <td>
+            <td>
+                @Html.ActionLink("Xóa", "Delete", "DiscountCodes", new { area = "Admin", id = item.Id }, new { @class = "btn btn-danger" })
+            </td>
+
+            </td>
+        </tr>
+    }
+</table>

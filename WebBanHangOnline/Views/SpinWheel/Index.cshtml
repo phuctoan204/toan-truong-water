@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Vòng quay may mắn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Vòng quay may mắn</h2>
+
+<form id="spinForm">
+    <div>
+        <label>Họ tên:</label>
+        <input type="text" name="FullName" required />
+    </div>
+    <div>
+        <label>Email:</label>
+        <input type="email" name="Email" required />
+    </div>
+    <button type="submit">Quay ngay</button>
+</form>
+
+<div id="result" style="margin-top: 20px;"></div>
+
+<script>
+    document.getElementById("spinForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        fetch('@Url.Action("Spin", "SpinWheel")', {
+            method: 'POST',
+            body: new FormData(this)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById("result").innerHTML = `<p>Chúc mừng bạn đã trúng mã giảm giá: <strong>${data.discountCode}</strong></p>`;
+            } else {
+                document.getElementById("result").innerHTML = `<p>Rất tiếc! Bạn không trúng lần này.</p>`;
+            }
+        });
+    });
+</script>

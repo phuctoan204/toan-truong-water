@@ -1,0 +1,304 @@
+﻿/* Căn giữa product_categories */
+.product_categories {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Định dạng cho container */
+.container1 {
+    max-width: 800px; /* Độ rộng tối đa */
+    width: 100%;
+    padding: 20px;
+}
+
+/* Căn giữa title và các line */
+.section_title_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.line {
+    width: 300px;
+    height: 2px;
+    background-color: #ccc;
+}
+
+.left_line {
+    margin-right: 10px;
+}
+
+.right_line {
+    margin-left: 10px;
+}
+
+/* Định dạng cho phần tiêu đề */
+.section_title1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Căn giữa các mục sản phẩm */
+.row {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Khoảng cách giữa các mục sản phẩm */
+    flex-wrap: nowrap; /* Đặt không wrap để giữ các item nằm ngang */
+}
+
+.product_category_item {
+    width: 300px;
+    text-align: center;
+}
+
+.product_category_content {
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+    .product_category_content:hover {
+        transform: scale(1.05);
+    }
+
+    .product_category_content img {
+        width: 100%;
+        max-width: 250px;
+        margin-bottom: 15px;
+    }
+
+    .product_category_content h3 {
+        font-size: 18px;
+        margin-top: 10px;
+    }
+
+/* Định dạng cho phần feature_content */
+.feature_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .feature_content img {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 15px;
+    }
+
+    .feature_content h3 {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .feature_content p {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+/* Main container */
+.location_grid {
+    background-color: #00b1e1;
+    padding: 40px 0;
+}
+
+/* Section title wrapper */
+.title_wrapper {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.section_heading {
+    font-size: 30px;
+    font-weight: bold;
+    color: black;
+}
+
+.divider {
+    width: 50px;
+    height: 2px;
+    background-color: white;
+    margin: 10px auto;
+}
+
+.left_divider {
+    float: left;
+}
+
+.right_divider {
+    float: right;
+}
+
+/* Flexbox container for the items */
+.grid_row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+/* Individual location item */
+.location_item {
+    text-align: center;
+    margin-bottom: 20px;
+    width: 120px;
+}
+
+    .location_item img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin-bottom: 15px;
+    }
+
+    /* Location item title */
+    .location_item h3 {
+        font-size: 16px;
+        font-weight: 500;
+        color: white;
+        margin: 0;
+    }
+
+/* Style for anchor tags to avoid default underlines */
+.location_item_link {
+    text-decoration: none;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .location_item {
+        width: 120px;
+    }
+}
+
+@media (max-width: 576px) {
+    .location_item {
+        width: 100%;
+    }
+}
+
+.custom_container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.title_wrapper {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.divider {
+    display: inline-block;
+    width: 50px;
+    height: 2px;
+    background-color: #333;
+    margin: 0 10px;
+}
+
+.section_heading {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.grid_row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.review_item {
+    width: 23%;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.review_item_inner {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.review_avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.stars span {
+    color: #FFD700;
+    font-size: 18px;
+}
+
+.review_item h3 {
+    font-size: 16px;
+    margin: 10px 0 5px;
+}
+
+    .review_item h3 span {
+        font-weight: normal;
+        font-size: 14px;
+        color: #888;
+    }
+
+.review_item p {
+    font-size: 14px;
+    color: #666;
+}
+
+
+.container_custom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.header_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.line {
+    height: 2px;
+    background-color: #333;
+    width: 50px;
+    margin: 0 15px;
+}
+
+.heading_section {
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.partners_row_wrapper {
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.partners_row {
+    display: flex;
+    align-items: center;
+}
+
+.partners_section {
+    padding: 40px 0;
+}
+
+.partner_logo_item {
+    text-align: center;
+    padding: 10px;
+}
+
+    .partner_logo_item img {
+        max-width: 100px; /* Tùy chỉnh kích thước ảnh */
+        height: auto;
+    }

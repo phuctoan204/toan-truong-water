@@ -1,0 +1,439 @@
+﻿@{
+    ViewBag.Title = ViewBag.Title;
+    ViewBag.SeoDescription = ViewBag.SeoDescription;
+}
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/Home.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<!-- Slider -->
+<style>
+    .main_slider_content h4,
+    .main_slider_content h1 {
+        color: white;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    .custom-body3 {
+        background-color: #e6e6e6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 700px;
+        gap: 50px; /* Khoảng cách giữa hai phần tử */
+    }
+
+    .main_slider1 {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 700px;
+        background-size: cover;
+        background-position: center;
+        color: #333;
+    }
+
+    .left_content, .right_content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Khung chính chứa hình splash và hiệu ứng */
+    .right_content {
+        background-image: url('../Content/assets/images/water-splash1.png'); /* Đảm bảo đúng đường dẫn */
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 1000px;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        animation: waterEffect 5s infinite ease-in-out; /* Hiệu ứng lặp */
+        border-radius: 50%;
+    }
+
+    /* Hiệu ứng waterEffect cho splash */
+    .waterEffect {
+        0%, 100%
+
+    {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05); /* Phóng to nhẹ ở giữa */
+    }
+
+    }
+
+    .right_content {
+        animation: waterEffect 4s infinite ease-in-out; /* Hiệu ứng lặp lại */
+    }
+
+        .right_content h1 {
+            font-size: 48px;
+            color: #00aaff;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        /* Hiệu ứng cho dòng chữ mô tả */
+        .right_content p {
+            font-size: 16px;
+            color: #333;
+            animation: fadeInMove 3s ease-out, pulse 1.5s infinite;
+        }
+
+    /* Hiệu ứng fadeInMove cho chữ xuất hiện và di chuyển lên */
+    .fadeInMove {
+        0%
+
+    {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    /* Hiệu ứng pulse cho chữ nhấp nháy nhẹ */
+    .pulse {
+        0%, 100%
+
+    {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    }
+
+    .contact_buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+        .contact_buttons a {
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #ff3366;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+    /* Animation cho bounce của tiêu đề */
+    .bounce {
+        0%, 100%
+
+    {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+    }
+</style>
+<div class="custom-body3">
+    <div class="main_slider1">
+        <div class="left_content">
+            <img src="~/Content/assets/images/swatervn-banner.png" alt="Delivery">
+            <!-- Icons representing various features -->
+        </div>
+        <div class="right_content">
+            <h1>PHUCTOANWATER</h1>
+            <p>Giao nước siêu nhanh – Gọi có ngay</p>
+            <div class="contact_buttons">
+                <a href="tel:0898863329">
+                    <i class="fas fa-phone-alt"></i> 0898863329
+                </a>
+                <a href="https://localhost:44375/san-pham">
+                    <i class="fas fa-shopping-cart"></i> Mua ngay
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Banner -->
+@Html.Action("MenuProductCategory", "Menu")
+<!-- Best Sellers -->
+@Html.Action("Partial_ProductSales", "Products")
+<!-- New Arrivals -->
+
+<div class="product_categories">
+    <div class="container1">
+        <div class="section_title_container">
+            <div class="line left_line"></div>
+            <h2 class="section_title1">Danh Mục Sản Phẩm</h2>
+            <div class="line right_line"></div>
+        </div>
+        <div class="row">
+            <!-- Large Bottle -->
+            <div class="col-md-6 product_category_item">
+                <a href="https://localhost:44375/san-pham" class="product_category_content">
+                    <img src="~/Content/assets/images/hinhanh1.jpg" alt="Nước Khoáng Thiên Nhiên - Bình Lớn" />
+                    <h3>Nước Khoáng Thiên Nhiên - Bình Lớn</h3>
+                </a>
+            </div>
+            <!-- Small Bottles -->
+            <div class="col-md-6 product_category_item">
+                <a href="https://localhost:44375/san-pham" class="product_category_content">
+                    <img src="~/Content/assets/images/hinhanh2.png" alt="Nước Khoáng Thiên Nhiên - Chai Nhỏ">
+                    <h3>Nước Khoáng Thiên Nhiên - Chai Nhỏ</h3>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="location_grid">
+    <div class="custom_container">
+        <div class="title_wrapper">
+            <div class="divider left_divider"></div>
+            <h2 class="section_heading">Chuỗi Giao Nước Chuyên Nghiệp Tại TP HCM</h2>
+            <div class="divider right_divider"></div>
+        </div>
+        <div class="grid_row">
+            <!-- Nhà Riêng -->
+            <div class="col-md-3 location_item">
+                <a href="#" class="location_item_link">
+                    <img src="~/Content/assets/images/nha_riêng_icon.png" alt="Nhà Riêng" />
+                    <h3>Nhà Riêng</h3>
+                </a>
+            </div>
+            <!-- Cơ Quan -->
+            <div class="col-md-3 location_item">
+                <a href="#" class="location_item_link">
+                    <img src="~/Content/assets/images/co_quan_icon.png" alt="Cơ Quan" />
+                    <h3>Cơ Quan</h3>
+                </a>
+            </div>
+            <!-- Bệnh Viện -->
+            <div class="col-md-3 location_item">
+                <a href="#" class="location_item_link">
+                    <img src="~/Content/assets/images/benh_vien_icon.png" alt="Bệnh Viện" />
+                    <h3>Bệnh Viện</h3>
+                </a>
+            </div>
+            <!-- Khách Sạn -->
+            <div class="col-md-3 location_item">
+                <a href="#" class="location_item_link">
+                    <img src="~/Content/assets/images/khach_san_icon.png" alt="Khách Sạn" />
+                    <h3>Khách Sạn</h3>
+                </a>
+            </div>
+            <!-- Doanh Nghiệp -->
+            <div class="col-md-3 location_item">
+                <a href="#" class="location_item_link">
+                    <img src="~/Content/assets/images/doanh_nghiep_icon.png" alt="Doanh Nghiệp" />
+                    <h3>Doanh Nghiệp</h3>
+                </a>
+            </div>
+            <!-- Trường Học -->
+            <div class="col-md-3 location_item">
+                <a href="#" class="location_item_link">
+                    <img src="~/Content/assets/images/truong_hoc_icon.png" alt="Trường Học" />
+                    <h3>Trường Học</h3>
+                </a>
+            </div>
+            <!-- Cửa Hàng -->
+            <div class="col-md-3 location_item">
+                <a href="#" class="location_item_link">
+                    <img src="~/Content/assets/images/cua_hang_icon.png" alt="Cửa Hàng" />
+                    <h3>Cửa Hàng</h3>
+                </a>
+            </div>
+            <!-- Công Trình -->
+            <div class="col-md-3 location_item">
+                <a href="#" class="location_item_link">
+                    <img src="~/Content/assets/images/cong_trinh_icon.png" alt="Công Trình" />
+                    <h3>Công Trình</h3>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="review_grid">
+    <div class="custom_container">
+        <div class="title_wrapper">
+            <div class="divider left_divider"></div>
+            <h2 class="section_heading">Đánh Giá Của Khách Hàng</h2>
+            <div class="divider right_divider"></div>
+        </div>
+        <div class="grid_row">
+            <!-- Review 1 -->
+            <div class="col-md-3 review_item">
+                <div class="review_item_inner">
+                    <img src="~/Content/assets/images/avatar1.jpg" alt="Hoa" class="review_avatar" />
+                    <h3>Hoa <span>/ Cao ốc An Phú</span></h3>
+                    <div class="stars">
+                        <span>★★★★★</span>
+                    </div>
+                    <p>Sản phẩm tốt, thùng nước và bao bì mới, đóng gói cẩn thận.</p>
+                </div>
+            </div>
+            <!-- Review 2 -->
+            <div class="col-md-3 review_item">
+                <div class="review_item_inner">
+                    <img src="~/Content/assets/images/avatar2.jpg" alt="Vinh" class="review_avatar" />
+                    <h3>Vinh <span>/ Landmark 81</span></h3>
+                    <div class="stars">
+                        <span>★★★★★</span>
+                    </div>
+                    <p>Giao hàng nhanh, mình nhận được hàng chỉ sau 30 phút!</p>
+                </div>
+            </div>
+            <!-- Review 3 -->
+            <div class="col-md-3 review_item">
+                <div class="review_item_inner">
+                    <img src="~/Content/assets/images/avatar3.jpg" alt="Michael" class="review_avatar" />
+                    <h3>Michael</h3>
+                    <div class="stars">
+                        <span>★★★★★</span>
+                    </div>
+                    <p>I regularly use bottled water at Swater. I like your service.</p>
+                </div>
+            </div>
+            <!-- Review 4 -->
+            <div class="col-md-3 review_item">
+                <div class="review_item_inner">
+                    <img src="~/Content/assets/images/avatar4.jpg" alt="An Nguyen" class="review_avatar" />
+                    <h3>An Nguyen</h3>
+                    <div class="stars">
+                        <span>★★★★★</span>
+                    </div>
+                    <p>Dịch vụ tốt, nhân viên giao hàng nhiệt tình, vui tính. Sẽ mua lại!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="partners_section">
+    <div class="container_custom">
+        <div class="header_wrapper">
+            <div class="line left_line"></div>
+            <h2 class="heading_section">Đối Tác</h2>
+            <div class="line right_line"></div>
+        </div>
+        <div class="partners_row_wrapper owl-carousel">
+            <!-- Logo 1 -->
+            <div class="partner_logo_item">
+                <img src="~/Content/assets/images/bidrico_logo.png" alt="Bidrico" />
+            </div>
+            <!-- Logo 2 -->
+            <div class="partner_logo_item">
+                <img src="~/Content/assets/images/alaska_logo.png" alt="Alaska" />
+            </div>
+            <!-- Logo 3 -->
+            <div class="partner_logo_item">
+                <img src="~/Content/assets/images/tanqua_plus_logo.png" alt="Tân Quà Plus" />
+            </div>
+            <!-- Logo 4 -->
+            <div class="partner_logo_item">
+                <img src="~/Content/assets/images/ion_life_logo.png" alt="Ion Life" />
+            </div>
+            <!-- Logo 5 -->
+            <div class="partner_logo_item">
+                <img src="~/Content/assets/images/aquafina_logo.png" alt="Aquafina" />
+            </div>
+            <!-- Logo 6 -->
+            <div class="partner_logo_item">
+                <img src="~/Content/assets/images/lavie_logo.png" alt="La Vie" />
+            </div>
+            <!-- Logo 7 -->
+            <div class="partner_logo_item">
+                <img src="~/Content/assets/images/vinh_hao_logo.png" alt="Vĩnh Hảo" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Benefit -->
+
+<div class="product_categories">
+    <style>
+        .product_categories {
+            margin-top: 30px;
+        }
+    </style>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 feature_item">
+                <div class="feature_content">
+                    <i class="fas fa-leaf" style="font-size: 50px; color: #046e49;"></i>
+                    <h3>Sinh ra từ thiên nhiên</h3>
+                    <p>La Vie được sinh ra bởi mẹ thiên nhiên, giúp lưu giữ trọn vẹn tinh hoa của tự nhiên và chứa các khoáng chất thiết yếu được chất lọc qua nhiều tầng địa chất hàng nghìn năm.</p>
+                </div>
+            </div>
+
+            <!-- Chất lượng chuẩn Nestle -->
+            <div class="col-md-4 feature_item">
+                <div class="feature_content">
+                    <i class="fas fa-award" style="font-size: 50px; color: #046e49;"></i>
+                    <h3>Chất lượng chuẩn Nestle</h3>
+                    <p>Sản xuất theo công nghệ tiên tiến từ Châu Âu, dưới sự giám sát chất lượng của Nestle Water - Công ty hàng đầu thế giới về nước uống đóng chai.</p>
+                </div>
+            </div>
+
+            <!-- Miễn phí ship -->
+            <div class="col-md-4 feature_item">
+                <div class="feature_content">
+                    <i class="fas fa-shipping-fast" style="font-size: 50px; color: #046e49;"></i>
+                    <h3>Miễn phí ship</h3>
+                    <p>Hoàn toàn miễn phí giao hàng với bất kỳ đơn hàng nào. Hãy nhanh tay đặt hàng cùng La Vie!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Blogs -->
+@Html.Action("Partial_News_Home", "News")
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".owl-carousel").owlCarousel({
+            loop: true, // Bật chế độ vòng lặp
+            margin: 20, // Khoảng cách giữa các logo
+            autoplay: true, // Tự động chạy
+            autoplayTimeout: 3000, // Thời gian giữa các slide (3 giây)
+            autoplayHoverPause: true, // Tạm dừng khi hover
+            responsive: {
+                0: {
+                    items: 2 // Hiển thị 2 logo trên màn hình nhỏ
+                },
+                600: {
+                    items: 3 // Hiển thị 3 logo trên màn hình vừa
+                },
+                1000: {
+                    items: 5 // Hiển thị 4 logo trên màn hình lớn
+                }
+            }
+        });
+    });
+</script>

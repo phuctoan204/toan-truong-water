@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Kết quả quay thưởng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/contact_styles.css">
+<h2 class="text-center">Chúc mừng!</h2>
+
+@if (!string.IsNullOrEmpty(ViewBag.DiscountCode))
+{
+    <p class="text-success text-center">Bạn đã trúng mã giảm giá: <strong>@ViewBag.DiscountCode</strong></p>
+}
+else
+{
+    <p class="text-danger text-center">Rất tiếc, bạn không trúng thưởng lần này.</p>
+}
+
+<a href="@Url.Action("Index", "LuckyWheel")" class="btn btn-primary">Thử lại</a>
+

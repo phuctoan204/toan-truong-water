@@ -1,0 +1,50 @@
+﻿@model WebBanHangOnline.Models.RegisterViewModel
+@using CaptchaMvc.HtmlHelpers
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml"; // Sử dụng layout cho trang đăng nhập/đăng ký
+}
+
+<div class="container">
+    <div class="login-form">
+        <h2>@ViewBag.Title</h2>
+
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h4>Create a new account</h4>
+            <hr />
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+            <div class="input-box">
+                @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+
+            <div class="input-box">
+                @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
+
+            <div class="input-box">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label" })
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
+            <div class="input-box">
+                @Html.Captcha(5)
+                <p class=" text-danger">@ViewBag.ErrorMessage</p>
+            </div>
+            <div class="input-box">
+                <input type="submit" class="btn" value="Register" />
+            </div>
+
+            <div class="register">
+                Already have an account? <a href="~/Account/Login">Login</a>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

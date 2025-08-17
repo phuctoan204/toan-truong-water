@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "Tính Lượng Nước";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/contact_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/tinhluongnuoc.css">
+<<div class="custom-body">
+    <div class="custom-container">
+        <h2 class="custom-title">Tính Lượng Nước Cần Uống Hàng Ngày</h2>
+        <p class="custom-sub-header">Cơ thể chúng ta có 70% là nước, việc uống quá nhiều hoặc uống quá ít cũng đều gây hại cho cơ thể. Công cụ tính lượng nước cần uống hàng ngày sẽ giúp bạn kiểm soát được lượng nước đủ cho cơ thể bạn.</p>
+
+        <div class="custom-form-container">
+            <form id="waterForm">
+                <div class="custom-form-group">
+                    <label for="age">Độ tuổi:</label>
+                    <select id="age" name="age" class="custom-form-control" required>
+                        <option value="14-18">14-18</option>
+                        <option value="19-30">19-30</option>
+                        <option value="31-50">31-50</option>
+                        <option value="50+">50+</option>
+                    </select>
+                </div>
+                <div class="custom-form-group">
+                    <label for="gender">Giới tính:</label>
+                    <select id="gender" name="gender" class="custom-form-control" required>
+                        <option value="male">Nam</option>
+                        <option value="female">Nữ</option>
+                    </select>
+                </div>
+                <div class="custom-form-group">
+                    <label for="height">Chiều cao (cm):</label>
+                    <input type="number" id="height" name="height" class="custom-form-control" required>
+                </div>
+                <div class="custom-form-group">
+                    <label for="weight">Cân nặng (kg):</label>
+                    <input type="number" id="weight" name="weight" class="custom-form-control" required>
+                </div>
+                <div class="custom-form-group">
+                    <label for="weather">Thời tiết:</label>
+                    <select id="weather" name="weather" class="custom-form-control">
+                        <option value="normal">Bình thường</option>
+                        <option value="rainy">Ngày mưa</option>
+                        <option value="sunny">Ngày nắng</option>
+                    </select>
+                </div>
+                <div class="custom-form-group">
+                    <label for="activity">Hoạt động:</label>
+                    <select id="activity" name="activity" class="custom-form-control">
+                        <option value="low">Ít</option>
+                        <option value="medium">Vừa</option>
+                        <option value="high">Nhiều</option>
+                    </select>
+                </div>
+                <button type="button" onclick="calculateWaterIntake()" class="custom-btn">Tính Ngay</button>
+            </form>
+
+            <p id="result" class="custom-result-text">Bạn nên bổ sung ...... nước mỗi ngày</p>
+        </div>
+
+        <p class="custom-note">Theo Công thức Tính Lượng Nước Uống của Nước Tinh Khiết – The Water MAN</p>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Content/assets/js/contact_custom.js"></script>
+}
+<script>
+    function calculateWaterIntake() {
+        const age = document.getElementById("age").value;
+        const gender = document.getElementById("gender").value;
+        const height = parseFloat(document.getElementById("height").value);
+        const weight = parseFloat(document.getElementById("weight").value);
+        const weather = document.getElementById("weather").value;
+        const activity = document.getElementById("activity").value;
+
+        // Kiểm tra xem người dùng đã nhập đầy đủ chiều cao và cân nặng chưa
+        if (isNaN(height) || isNaN(weight) || height <= 0 || weight <= 0) {
+            document.getElementById("result").innerText = "Vui lòng nhập đầy đủ chiều cao và cân nặng để tính lượng nước.";
+            return;
+        }
+
+        // Chọn lượng nước cơ bản theo độ tuổi (lít mỗi kg)
+        let waterPerKg;
+        if (age === "14-18") {
+            waterPerKg = 0.04; // 40ml = 0.03 lít mỗi kg
+        } else if (age === "19-30") {
+            waterPerKg = 0.04; // 45ml = 0.035 lít mỗi kg
+        } else if (age === "31-50") {
+            waterPerKg = 0.035; // 35ml = 0.035 lít mỗi kg
+        } else if (age === "50+") {
+            waterPerKg = 0.03; // 30ml = 0.03 lít mỗi kg
+        }
+
+        // Tính lượng nước cơ bản theo trọng lượng (lít)
+        let waterIntake = weight * waterPerKg;
+
+        // Điều chỉnh theo mức độ hoạt động (lít)
+        if (activity === "low") {
+            waterIntake += 0.2; // 200ml = 0.2 lít
+        } else if (activity === "medium") {
+            waterIntake += 0.4; // 400ml = 0.4 lít
+        } else if (activity === "high") {
+            waterIntake += 0.6; // 600ml = 0.6 lít
+        }
+
+        // Điều chỉnh theo thời tiết (lít)
+        if (weather === "sunny") {
+            waterIntake += 0.5; // 500ml = 0.5 lít
+        }
+        else if (weather === "rainy") {
+            waterIntake -= 0.1; // Giảm 100ml = 0.1 lít nếu trời mưa
+        }
+
+        // Điều chỉnh theo giới tính (lít)
+        if (gender === "male") {
+            waterIntake *= 1.1; // Nam giới tăng thêm 10%
+        } else if (gender === "female") {
+            waterIntake *= 0.95; // Nữ giới giảm 5%
+        }
+
+        // Hiển thị kết quả (lít)
+        document.getElementById("result").innerText = `Bạn nên bổ sung ${waterIntake.toFixed(2)} lít nước mỗi ngày`;
+    }
+</script>

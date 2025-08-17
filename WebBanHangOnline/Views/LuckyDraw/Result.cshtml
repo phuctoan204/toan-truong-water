@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Kết quả vòng quay";
+}
+<h2>Kết quả</h2>
+
+@if (ViewBag.Prize != null)
+{
+    <p>Bạn đã trúng: <strong>@ViewBag.Prize</strong></p>
+}
+else
+{
+    <p>Không có kết quả nào.</p>
+}
+
+<a href="@Url.Action("Index")">Quay lại</a>
+
