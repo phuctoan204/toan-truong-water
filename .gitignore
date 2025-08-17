@@ -58,3 +58,32 @@ WebBanHangOnline/Uploads/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Large media files (GitHub limit: 100MB)
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+*.mkv
+*.webm
+*.m4v
+*.3gp
+*.mpg
+*.mpeg
+*.wav
+*.flac
+*.aiff
+*.m4a
+*.ogg
+*.wma
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.bz2
+
+# Specific large files
+WebBanHangOnline/Content/assets/videos/
+WebBanHangOnline/Content/assets/images/*.mp4
